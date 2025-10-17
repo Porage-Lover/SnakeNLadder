@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake and Ladder Game</title>
+    <style>
+        :root {
+  /* Primitive Color Tokens */
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
+
+  /* RGB versions for opacity control */
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-red-500-rgb: 192, 21, 47;
+  --color-red-400-rgb: 255, 84, 89;
+  --color-orange-500-rgb: 168, 75, 47;
+  --color-orange-400-rgb: 230, 129, 97;
+
+  /* Background color tokens (Light Mode) */
+  --color-bg-1: rgba(59, 130, 246, 0.08); /* Light blue */
+  --color-bg-2: rgba(245, 158, 11, 0.08); /* Light yellow */
+  --color-bg-3: rgba(34, 197, 94, 0.08); /* Light green */
+  --color-bg-4: rgba(239, 68, 68, 0.08); /* Light red */
+  --color-bg-5: rgba(147, 51, 234, 0.08); /* Light purple */
+  --color-bg-6: rgba(249, 115, 22, 0.08); /* Light orange */
+  --color-bg-7: rgba(236, 72, 153, 0.08); /* Light pink */
+  --color-bg-8: rgba(6, 182, 212, 0.08); /* Light cyan */
+
+  /* Semantic Color Tokens (Light Mode) */
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-active: var(--color-teal-700);
+  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-btn-primary-text: var(--color-cream-50);
+  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-error: var(--color-red-500);
+  --color-success: var(--color-teal-500);
+  --color-warning: var(--color-orange-500);
+  --color-info: var(--color-slate-500);
+  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+  /* Typography */
+  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo,
+    Monaco, Consolas, monospace;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 30px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --font-weight-bold: 600;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --letter-spacing-tight: -0.01em;
+
+  /* Spacing */
+  --space-0: 0;
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04),
+    0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04),
+    0 4px 6px -2px rgba(0, 0, 0, 0.02);
+
+  /* Animation */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dark mode colors */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-gray-400-rgb: 119, 124, 124;
+    --color-teal-300-rgb: 50, 184, 198;
+    --color-gray-300-rgb: 167, 169, 169;
+    --color-gray-200-rgb: 245, 245, 245;
+
+    --color-bg-1: rgba(29, 78, 216, 0.15);
+    --color-bg-2: rgba(180, 83, 9, 0.15);
+    --color-bg-3: rgba(21, 128, 61, 0.15);
+    --color-bg-4: rgba(185, 28, 28, 0.15);
+    --color-bg-5: rgba(107, 33, 168, 0.15);
+    --color-bg-6: rgba(194, 65, 12, 0.15);
+    --color-bg-7: rgba(190, 24, 93, 0.15);
+    --color-bg-8: rgba(8, 145, 178, 0.15);
+
+    --color-background: var(--color-charcoal-700);
+    --color-surface: var(--color-charcoal-800);
+    --color-text: var(--color-gray-200);
+    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+    --color-primary: var(--color-teal-300);
+    --color-primary-hover: var(--color-teal-400);
+    --color-primary-active: var(--color-teal-800);
+    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-error: var(--color-red-400);
+    --color-success: var(--color-teal-300);
+    --color-warning: var(--color-orange-400);
+    --color-info: var(--color-gray-300);
+    --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+    --color-btn-primary-text: var(--color-slate-900);
+    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+  }
+}
+
+/* Base styles */
+html {
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/* Game-specific styles */
+.game-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-20);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-24);
+}
+
+.game-title {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  margin: 0;
+  text-align: center;
+  background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Setup Screen */
+.setup-screen {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-32);
+  text-align: center;
+  box-shadow: var(--shadow-md);
+}
+
+.setup-screen h2 {
+  font-size: var(--font-size-2xl);
+  margin: 0 0 var(--space-24) 0;
+  color: var(--color-text);
+}
+
+.player-selector {
+  display: flex;
+  gap: var(--space-12);
+  justify-content: center;
+  margin: var(--space-24) 0;
+}
+
+.player-count-btn {
+  padding: var(--space-12) var(--space-20);
+  border: 2px solid var(--color-border);
+  background: var(--color-surface);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+}
+
+.player-count-btn:hover {
+  background: var(--color-secondary-hover);
+}
+
+.player-count-btn.selected {
+  background: var(--color-primary);
+  color: var(--color-btn-primary-text);
+  border-color: var(--color-primary);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12) var(--space-24);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.5;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+  border: none;
+  text-decoration: none;
+  position: relative;
+}
+
+.btn--primary {
+  background: var(--color-primary);
+  color: var(--color-btn-primary-text);
+}
+
+.btn--primary:hover {
+  background: var(--color-primary-hover);
+}
+
+.btn--primary:active {
+  background: var(--color-primary-active);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Game Interface */
+.game-interface {
+  display: none;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.game-interface.active {
+  display: block;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-24);
+  flex-wrap: wrap;
+  gap: var(--space-16);
+}
+
+.player-info {
+  display: flex;
+  gap: var(--space-16);
+  align-items: center;
+}
+
+.current-player {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-16);
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-base);
+}
+
+.player-token {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.dice-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-12);
+}
+
+.dice-container {
+  width: 80px;
+  height: 80px;
+  perspective: 200px;
+  margin-bottom: var(--space-8);
+}
+
+.dice {
+  width: 100%;
+  height: 100%;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  box-shadow: var(--shadow-md);
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+}
+
+.dice.rolling {
+  animation: diceRoll 1s ease-out;
+}
+
+@keyframes diceRoll {
+  0% { transform: rotateX(0) rotateY(0); }
+  25% { transform: rotateX(90deg) rotateY(180deg); }
+  50% { transform: rotateX(180deg) rotateY(360deg); }
+  75% { transform: rotateX(270deg) rotateY(540deg); }
+  100% { transform: rotateX(360deg) rotateY(720deg); }
+}
+
+/* Game Board */
+.game-board {
+  background: var(--color-surface);
+  border: 2px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-16);
+  box-shadow: var(--shadow-lg);
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  gap: 2px;
+  aspect-ratio: 1;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  overflow: visible;
+}
+
+.board-cell {
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-card-border-inner);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  position: relative;
+  min-height: 40px;
+  transition: background-color 0.3s ease;
+}
+
+.board-cell:nth-child(even) {
+  background: var(--color-bg-2);
+}
+
+.board-cell .cell-number {
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  z-index: 5;
+}
+
+/* Snakes and Ladders */
+.snake {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.snake-body {
+  stroke: #2d8f2d;
+  stroke-width: 8;
+  fill: none;
+  stroke-linecap: round;
+}
+
+.snake-head {
+  fill: #1a5d1a;
+}
+
+.ladder {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ladder-rail {
+  stroke: #8b4513;
+  stroke-width: 4;
+  fill: none;
+}
+
+.ladder-rung {
+  stroke: #8b4513;
+  stroke-width: 3;
+}
+
+/* Player Tokens */
+.player-piece {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  transition: all 0.5s ease;
+  transform: translate(-50%, -50%);
+}
+
+.player-piece.moving {
+  transition: all 0.3s ease;
+}
+
+/* Game Log */
+.game-log {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-base);
+  padding: var(--space-16);
+  margin-top: var(--space-24);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.game-log h3 {
+  margin: 0 0 var(--space-12) 0;
+  font-size: var(--font-size-lg);
+  color: var(--color-text);
+}
+
+.log-entry {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.log-entry:last-child {
+  margin-bottom: 0;
+}
+
+/* Player Positions */
+.player-positions {
+  display: flex;
+  gap: var(--space-16);
+  justify-content: center;
+  margin-top: var(--space-16);
+}
+
+.position-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-base);
+  padding: var(--space-12);
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-width: 100px;
+}
+
+.position-number {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+}
+
+/* Win Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--duration-normal) var(--ease-standard);
+}
+
+.modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-32);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  transform: scale(0.9);
+  transition: transform var(--duration-normal) var(--ease-standard);
+  box-shadow: var(--shadow-lg);
+}
+
+.modal.show .modal-content {
+  transform: scale(1);
+}
+
+.modal-title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0 0 var(--space-16) 0;
+  color: var(--color-success);
+}
+
+.modal-message {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--space-24) 0;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: var(--space-12);
+  justify-content: center;
+}
+
+.winner-celebration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-12);
+  margin-bottom: var(--space-16);
+}
+
+.winner-token {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  border: 3px solid rgba(255, 255, 255, 0.8);
+  animation: celebrationBounce 1s ease-in-out infinite;
+}
+
+@keyframes celebrationBounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .game-container {
+    padding: var(--space-12);
+  }
+  
+  .game-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .game-board {
+    max-width: 90vw;
+    padding: var(--space-8);
+  }
+  
+  .board-cell {
+    min-height: 30px;
+  }
+  
+  .player-positions {
+    flex-wrap: wrap;
+  }
+  
+  .dice-container {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .dice {
+    font-size: var(--font-size-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .game-title {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .board-cell {
+    min-height: 25px;
+  }
+  
+  .board-cell .cell-number {
+    font-size: 10px;
+  }
+  
+  .player-piece {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@font-face {
+  font-family: 'FKGroteskNeue';
+  src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2')
+    format('woff2');
+}
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1 class="game-title">🐍 Snake &amp; Ladder 🪜</h1>
+        
+        <!-- Setup Screen -->
+        <div class="setup-screen" id="setup-screen">
+            <h2>Choose Number of Players</h2>
+            <div class="player-selector">
+                <button class="player-count-btn" data-players="2">2 Players</button>
+                <button class="player-count-btn" data-players="3">3 Players</button>
+                <button class="player-count-btn" data-players="4">4 Players</button>
+            </div>
+            <button class="btn btn--primary" id="start-game" disabled>Start Game</button>
+        </div>
+        
+        <!-- Game Interface -->
+        <div class="game-interface" id="game-interface">
+            <div class="game-header">
+                <div class="player-info">
+                    <div class="current-player">
+                        <div class="player-token" id="current-player-token"></div>
+                        <span id="current-player-name">Player 1</span>'s Turn
+                    </div>
+                </div>
+                
+                <div class="dice-controls">
+                    <div class="dice-container">
+                        <div class="dice" id="dice">?</div>
+                    </div>
+                    <button class="btn btn--primary" id="roll-dice">Roll Dice</button>
+                </div>
+                
+                <button class="btn btn--primary" id="restart-game">New Game</button>
+            </div>
+            
+            <div class="game-board" id="game-board">
+                <!-- Board cells will be generated by JavaScript -->
+            </div>
+            
+            <div class="player-positions" id="player-positions">
+                <!-- Player position cards will be generated by JavaScript -->
+            </div>
+            
+            <div class="game-log">
+                <h3>Game Log</h3>
+                <div id="log-entries">
+                    <div class="log-entry">Game started! Player 1's turn.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Win Modal -->
+    <div class="modal" id="win-modal">
+        <div class="modal-content">
+            <div class="winner-celebration">
+                <div class="winner-token" id="winner-token"></div>
+                <h2 class="modal-title">🎉 Congratulations! 🎉</h2>
+            </div>
+            <p class="modal-message" id="winner-message">Player 1 wins the game!</p>
+            <div class="modal-buttons">
+                <button class="btn btn--primary" id="play-again">Play Again</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        class SnakeLadderGame {
+            constructor() {
+                this.players = [];
+                this.currentPlayerIndex = 0;
+                this.gameStarted = false;
+                this.isRolling = false;
+                this.isMoving = false;
+                
+                // Player colors
+                this.playerColors = ['#FF4444', '#4444FF', '#44FF44', '#FFFF44'];
+                
+                // Snakes (head -> tail)
+                this.snakes = {
+                    16: 6, 47: 26, 49: 11, 56: 53, 62: 19,
+                    64: 60, 87: 24, 93: 73, 95: 75, 98: 78
+                };
+                
+                // Ladders (bottom -> top)
+                this.ladders = {
+                    1: 38, 4: 14, 9: 21, 21: 42, 28: 84,
+                    36: 44, 51: 67, 71: 91, 80: 100
+                };
+                
+                this.initializeGame();
+            }
+            
+            initializeGame() {
+                this.setupEventListeners();
+                this.createBoard();
+            }
+            
+            setupEventListeners() {
+                // Player selection
+                document.querySelectorAll('.player-count-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => this.selectPlayerCount(e));
+                });
+                
+                // Start game
+                document.getElementById('start-game').addEventListener('click', () => this.startGame());
+                
+                // Roll dice
+                document.getElementById('roll-dice').addEventListener('click', () => this.rollDice());
+                
+                // Restart game
+                document.getElementById('restart-game').addEventListener('click', () => this.restartGame());
+                document.getElementById('play-again').addEventListener('click', () => this.restartGame());
+            }
+            
+            selectPlayerCount(e) {
+                // Remove previous selection
+                document.querySelectorAll('.player-count-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                
+                // Select current
+                e.target.classList.add('selected');
+                this.selectedPlayerCount = parseInt(e.target.dataset.players);
+                
+                // Enable start button
+                document.getElementById('start-game').disabled = false;
+            }
+            
+            startGame() {
+                if (!this.selectedPlayerCount) return;
+                
+                // Initialize players
+                this.players = [];
+                for (let i = 0; i < this.selectedPlayerCount; i++) {
+                    this.players.push({
+                        id: i + 1,
+                        name: `Player ${i + 1}`,
+                        position: 0,
+                        color: this.playerColors[i]
+                    });
+                }
+                
+                this.currentPlayerIndex = 0;
+                this.gameStarted = true;
+                
+                // Switch screens
+                document.getElementById('setup-screen').style.display = 'none';
+                document.getElementById('game-interface').classList.add('active');
+                
+                // Setup game interface
+                this.updateCurrentPlayerDisplay();
+                this.createPlayerPositions();
+                this.drawSnakesAndLadders();
+                this.updatePlayerPositions();
+                
+                this.addLogEntry('Game started! Player 1\'s turn.');
+            }
+            
+            createBoard() {
+                const board = document.getElementById('game-board');
+                board.innerHTML = '';
+                
+                // Create cells 1-100 in zigzag pattern
+                for (let row = 9; row >= 0; row--) {
+                    for (let col = 0; col < 10; col++) {
+                        const cellNumber = this.getCellNumber(row, col);
+                        const cell = document.createElement('div');
+                        cell.className = 'board-cell';
+                        cell.dataset.number = cellNumber;
+                        cell.innerHTML = `<span class="cell-number">${cellNumber}</span>`;
+                        
+                        // Position in grid (CSS Grid uses 1-based indexing)
+                        cell.style.gridRow = (10 - row);
+                        cell.style.gridColumn = (col + 1);
+                        
+                        board.appendChild(cell);
+                    }
+                }
+            }
+            
+            getCellNumber(row, col) {
+                // Calculate cell number in zigzag pattern
+                const rowFromBottom = row;
+                let number;
+                
+                if (rowFromBottom % 2 === 0) {
+                    // Even rows (0, 2, 4, 6, 8) go left to right
+                    number = (rowFromBottom * 10) + col + 1;
+                } else {
+                    // Odd rows (1, 3, 5, 7, 9) go right to left
+                    number = (rowFromBottom * 10) + (10 - col);
+                }
+                
+                return number;
+            }
+            
+            getCellPosition(cellNumber) {
+                // Find the row and column for a given cell number
+                const row = Math.floor((cellNumber - 1) / 10);
+                let col;
+                
+                if (row % 2 === 0) {
+                    // Even rows go left to right
+                    col = (cellNumber - 1) % 10;
+                } else {
+                    // Odd rows go right to left
+                    col = 9 - ((cellNumber - 1) % 10);
+                }
+                
+                return { row, col };
+            }
+            
+            createPlayerPositions() {
+                const container = document.getElementById('player-positions');
+                container.innerHTML = '';
+                
+                this.players.forEach(player => {
+                    const card = document.createElement('div');
+                    card.className = 'position-card';
+                    card.innerHTML = `
+                        <div class="player-token" style="background-color: ${player.color}"></div>
+                        <div>
+                            <div>${player.name}</div>
+                            <div class="position-number">${player.position}</div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+            
+            updateCurrentPlayerDisplay() {
+                const currentPlayer = this.players[this.currentPlayerIndex];
+                document.getElementById('current-player-token').style.backgroundColor = currentPlayer.color;
+                document.getElementById('current-player-name').textContent = currentPlayer.name;
+            }
+            
+            rollDice() {
+                if (this.isRolling || this.isMoving) return;
+                
+                this.isRolling = true;
+                const diceElement = document.getElementById('dice');
+                const rollButton = document.getElementById('roll-dice');
+                
+                // Disable roll button
+                rollButton.disabled = true;
+                
+                // Start dice animation
+                diceElement.classList.add('rolling');
+                
+                // Generate random number after animation
+                setTimeout(() => {
+                    const diceValue = Math.floor(Math.random() * 6) + 1;
+                    diceElement.textContent = diceValue;
+                    diceElement.classList.remove('rolling');
+                    
+                    this.movePlayer(diceValue);
+                    this.isRolling = false;
+                }, 1000);
+            }
+            
+            movePlayer(steps) {
+                this.isMoving = true;
+                const currentPlayer = this.players[this.currentPlayerIndex];
+                let newPosition = currentPlayer.position + steps;
+                
+                // Check if player would go beyond 100
+                if (newPosition > 100) {
+                    newPosition = 100 - (newPosition - 100); // Bounce back
+                }
+                
+                // Log the dice roll
+                this.addLogEntry(`${currentPlayer.name} rolled ${steps}`);
+                
+                // Animate movement
+                this.animatePlayerMovement(currentPlayer, newPosition, () => {
+                    // Check for snakes and ladders
+                    this.checkSnakeOrLadder(currentPlayer, newPosition);
+                });
+            }
+            
+            animatePlayerMovement(player, targetPosition, callback) {
+                const steps = Math.abs(targetPosition - player.position);
+                const direction = targetPosition > player.position ? 1 : -1;
+                let currentStep = 0;
+                
+                const moveStep = () => {
+                    if (currentStep < steps) {
+                        player.position += direction;
+                        this.updatePlayerPositions();
+                        currentStep++;
+                        setTimeout(moveStep, 300); // 300ms per step
+                    } else {
+                        callback();
+                    }
+                };
+                
+                moveStep();
+            }
+            
+            checkSnakeOrLadder(player, position) {
+                let finalPosition = position;
+                let message = '';
+                
+                // Check for snakes
+                if (this.snakes[position]) {
+                    finalPosition = this.snakes[position];
+                    message = `${player.name} hit a snake! Slid down to ${finalPosition}`;
+                    this.addLogEntry(message);
+                    
+                    // Animate snake slide
+                    setTimeout(() => {
+                        player.position = finalPosition;
+                        this.updatePlayerPositions();
+                        this.checkWin(player);
+                    }, 800);
+                }
+                // Check for ladders
+                else if (this.ladders[position]) {
+                    finalPosition = this.ladders[position];
+                    message = `${player.name} found a ladder! Climbed up to ${finalPosition}`;
+                    this.addLogEntry(message);
+                    
+                    // Animate ladder climb
+                    setTimeout(() => {
+                        player.position = finalPosition;
+                        this.updatePlayerPositions();
+                        this.checkWin(player);
+                    }, 800);
+                } else {
+                    // No snake or ladder
+                    player.position = position;
+                    this.updatePlayerPositions();
+                    this.checkWin(player);
+                }
+            }
+            
+            checkWin(player) {
+                if (player.position === 100) {
+                    this.showWinModal(player);
+                    return true;
+                }
+                
+                // Move to next player
+                setTimeout(() => {
+                    this.nextPlayer();
+                }, 1000);
+                
+                return false;
+            }
+            
+            nextPlayer() {
+                this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
+                this.updateCurrentPlayerDisplay();
+                
+                // Enable roll button for next player
+                document.getElementById('roll-dice').disabled = false;
+                this.isMoving = false;
+                
+                const currentPlayer = this.players[this.currentPlayerIndex];
+                this.addLogEntry(`${currentPlayer.name}'s turn`);
+            }
+            
+            updatePlayerPositions() {
+                // Remove existing player pieces
+                document.querySelectorAll('.player-piece').forEach(piece => piece.remove());
+                
+                // Update position cards
+                const cards = document.querySelectorAll('.position-card .position-number');
+                cards.forEach((card, index) => {
+                    card.textContent = this.players[index].position;
+                });
+                
+                // Add player pieces to board
+                this.players.forEach((player, index) => {
+                    if (player.position > 0) {
+                        this.addPlayerPieceToBoard(player, index);
+                    }
+                });
+            }
+            
+            addPlayerPieceToBoard(player, playerIndex) {
+                const cell = document.querySelector(`[data-number="${player.position}"]`);
+                if (!cell) return;
+                
+                const piece = document.createElement('div');
+                piece.className = 'player-piece';
+                piece.style.backgroundColor = player.color;
+                
+                // Position multiple players in the same cell
+                const existingPieces = cell.querySelectorAll('.player-piece').length;
+                const offsetX = (existingPieces % 2) * 12 - 6;
+                const offsetY = Math.floor(existingPieces / 2) * 12 - 6;
+                
+                piece.style.left = `50%`;
+                piece.style.top = `50%`;
+                piece.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px))`;
+                
+                cell.appendChild(piece);
+            }
+            
+            drawSnakesAndLadders() {
+                const board = document.getElementById('game-board');
+                const boardRect = board.getBoundingClientRect();
+                const cellSize = boardRect.width / 10;
+                
+                // Draw snakes
+                Object.entries(this.snakes).forEach(([head, tail]) => {
+                    this.drawSnake(parseInt(head), parseInt(tail), board, cellSize);
+                });
+                
+                // Draw ladders
+                Object.entries(this.ladders).forEach(([bottom, top]) => {
+                    this.drawLadder(parseInt(bottom), parseInt(top), board, cellSize);
+                });
+            }
+            
+            drawSnake(head, tail, board, cellSize) {
+                const headPos = this.getCellPosition(head);
+                const tailPos = this.getCellPosition(tail);
+                
+                // Convert to pixel positions
+                const startX = (headPos.col + 0.5) * cellSize;
+                const startY = (9 - headPos.row + 0.5) * cellSize;
+                const endX = (tailPos.col + 0.5) * cellSize;
+                const endY = (9 - tailPos.row + 0.5) * cellSize;
+                
+                // Create SVG for snake
+                const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svg.classList.add('snake');
+                svg.style.width = '100%';
+                svg.style.height = '100%';
+                svg.style.position = 'absolute';
+                svg.style.top = '0';
+                svg.style.left = '0';
+                
+                // Create curved path for snake body
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                const midX = (startX + endX) / 2;
+                const midY = (startY + endY) / 2 - 30; // Curve upward
+                
+                path.setAttribute('d', `M ${startX} ${startY} Q ${midX} ${midY} ${endX} ${endY}`);
+                path.classList.add('snake-body');
+                
+                // Create snake head
+                const head_circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                head_circle.setAttribute('cx', startX);
+                head_circle.setAttribute('cy', startY);
+                head_circle.setAttribute('r', 8);
+                head_circle.classList.add('snake-head');
+                
+                svg.appendChild(path);
+                svg.appendChild(head_circle);
+                board.appendChild(svg);
+            }
+            
+            drawLadder(bottom, top, board, cellSize) {
+                const bottomPos = this.getCellPosition(bottom);
+                const topPos = this.getCellPosition(top);
+                
+                // Convert to pixel positions
+                const startX = (bottomPos.col + 0.5) * cellSize;
+                const startY = (9 - bottomPos.row + 0.5) * cellSize;
+                const endX = (topPos.col + 0.5) * cellSize;
+                const endY = (9 - topPos.row + 0.5) * cellSize;
+                
+                // Create SVG for ladder
+                const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svg.classList.add('ladder');
+                svg.style.width = '100%';
+                svg.style.height = '100%';
+                svg.style.position = 'absolute';
+                svg.style.top = '0';
+                svg.style.left = '0';
+                
+                // Left rail
+                const leftRail = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                leftRail.setAttribute('x1', startX - 8);
+                leftRail.setAttribute('y1', startY);
+                leftRail.setAttribute('x2', endX - 8);
+                leftRail.setAttribute('y2', endY);
+                leftRail.classList.add('ladder-rail');
+                
+                // Right rail
+                const rightRail = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                rightRail.setAttribute('x1', startX + 8);
+                rightRail.setAttribute('y1', startY);
+                rightRail.setAttribute('x2', endX + 8);
+                rightRail.setAttribute('y2', endY);
+                rightRail.classList.add('ladder-rail');
+                
+                svg.appendChild(leftRail);
+                svg.appendChild(rightRail);
+                
+                // Add rungs
+                const steps = 5;
+                for (let i = 0; i <= steps; i++) {
+                    const progress = i / steps;
+                    const rungY = startY + (endY - startY) * progress;
+                    const rungStartX = (startX - 8) + ((endX - 8) - (startX - 8)) * progress;
+                    const rungEndX = (startX + 8) + ((endX + 8) - (startX + 8)) * progress;
+                    
+                    const rung = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    rung.setAttribute('x1', rungStartX);
+                    rung.setAttribute('y1', rungY);
+                    rung.setAttribute('x2', rungEndX);
+                    rung.setAttribute('y2', rungY);
+                    rung.classList.add('ladder-rung');
+                    
+                    svg.appendChild(rung);
+                }
+                
+                board.appendChild(svg);
+            }
+            
+            addLogEntry(message) {
+                const logContainer = document.getElementById('log-entries');
+                const entry = document.createElement('div');
+                entry.className = 'log-entry';
+                entry.textContent = message;
+                
+                logContainer.appendChild(entry);
+                logContainer.scrollTop = logContainer.scrollHeight;
+                
+                // Keep only last 10 entries
+                while (logContainer.children.length > 10) {
+                    logContainer.removeChild(logContainer.firstChild);
+                }
+            }
+            
+            showWinModal(winner) {
+                document.getElementById('winner-token').style.backgroundColor = winner.color;
+                document.getElementById('winner-message').textContent = `${winner.name} wins the game!`;
+                document.getElementById('win-modal').classList.add('show');
+                
+                this.addLogEntry(`🎉 ${winner.name} won the game! 🎉`);
+            }
+            
+            restartGame() {
+                // Hide modals
+                document.getElementById('win-modal').classList.remove('show');
+                
+                // Reset game state
+                this.players = [];
+                this.currentPlayerIndex = 0;
+                this.gameStarted = false;
+                this.isRolling = false;
+                this.isMoving = false;
+                
+                // Clear selections
+                document.querySelectorAll('.player-count-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                
+                // Reset UI
+                document.getElementById('start-game').disabled = true;
+                document.getElementById('roll-dice').disabled = false;
+                document.getElementById('dice').textContent = '?';
+                document.getElementById('log-entries').innerHTML = '<div class="log-entry">Game restarted!</div>';
+                
+                // Show setup screen
+                document.getElementById('setup-screen').style.display = 'block';
+                document.getElementById('game-interface').classList.remove('active');
+                
+                // Clear board
+                document.querySelectorAll('.player-piece').forEach(piece => piece.remove());
+            }
+        }
+        
+        // Initialize game when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new SnakeLadderGame();
+        });
+    </script>
+</body>
+</html>
